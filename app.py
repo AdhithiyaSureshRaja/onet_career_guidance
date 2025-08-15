@@ -71,7 +71,7 @@ model, feature_cols, profiles = data['model'], data['feature_cols'], data['profi
 def score_questionnaire(responses):
     work_values_resp = responses[:6]
     riasec_resp = responses[6:36]
-    work_styles_resp = responses[36:52]
+    work_styles_resp = responses[36:50]
     
     wv_scores = {
         'Achievement': np.mean([work_values_resp[0], work_values_resp[1]]) / 5.0,
@@ -94,9 +94,7 @@ def score_questionnaire(responses):
         'Dependability': np.mean(work_styles_resp[8:10]) / 5.0,
         'Adaptability': np.mean(work_styles_resp[10:12]) / 5.0,
         'Innovation': work_styles_resp[12] / 5.0,
-        'Analytical Thinking': work_styles_resp[13] / 5.0,
-        'Independence': work_styles_resp[14] / 5.0,
-        'Integrity': work_styles_resp[15] / 5.0
+        'Analytical Thinking': work_styles_resp[13] / 5.0
     }
     
     return {**wv_scores, **riasec_scores, **ws_scores}
@@ -127,7 +125,7 @@ def get_career_recommendations(user_profile, model, feature_cols, profiles, top_
     recommendations['similarity_score'] = similarities[top_indices]
     return recommendations.reset_index(drop=True)
 
-# Questions array - exactly 52 questions
+# Questions array - exactly 50 questions
 questions = [
     "Being able to use your strongest abilities and see results",
     "Getting recognition for the work you do", 
@@ -178,10 +176,7 @@ questions = [
     "Working independently without supervision",
     "Handling stressful situations well",
     "Maintaining self-control even in difficult circumstances",
-    "Being flexible and open to new ideas",
-    "Thinking analytically about problems",
-    "Being innovative in your approach to work",
-    "Working independently on projects"
+    "Being flexible and open to new ideas"
 ]
 
 # Verify question count
@@ -202,50 +197,31 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Create columns for better layout
-col1, col2 = st.columns(2)
-
+# Display questions in left column
 for i in range(TOTAL_QUESTIONS):
-    # Alternate between columns for better layout
-    col = col1 if i % 2 == 0 else col2
+    st.markdown(f"""
+    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid #FF6B6B;">
+        <strong style="color: #FF6B6B;">Q{i+1}:</strong> {questions[i]}
+    </div>
+    """, unsafe_allow_html=True)
     
-    with col:
-        st.markdown(f"""
-        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid #FF6B6B;">
-            <strong style="color: #FF6B6B;">Q{i+1}:</strong> {questions[i]}
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.session_state.responses[i] = st.slider(
-            f"Rating:",
-            min_value=1,
-            max_value=5,
-            value=st.session_state.responses[i],
-            key=f"q_{i}",
-            label_visibility="collapsed"
-        )
+    st.session_state.responses[i] = st.slider(
+        f"Rating:",
+        min_value=1,
+        max_value=5,
+        value=st.session_state.responses[i],
+        key=f"q_{i}",
+        label_visibility="collapsed"
+    )
 
 # Submit button with better styling
 st.markdown("""
 <div style="text-align: center; margin: 2rem 0;">
-    <button style="
-        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-        color: white;
-        border: none;
-        padding: 1rem 3rem;
-        font-size: 1.2rem;
-        font-weight: bold;
-        border-radius: 50px;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-    " onclick="document.querySelector('button[data-testid=\'baseButton-secondary\']').click()">
-        🚀 Get Career Recommendations
-    </button>
+    <h3 style="color: #FF6B6B; margin-bottom: 1rem;">Ready to get your recommendations?</h3>
 </div>
 """, unsafe_allow_html=True)
 
-if st.button("Get Career Recommendations", type="primary", key="hidden_button"):
+if st.button("🚀 Get Career Recommendations", type="primary", key="submit_button"):
     user_profile = score_questionnaire(st.session_state.responses)
     recommendations = get_career_recommendations(user_profile, model, feature_cols, profiles)
     
@@ -274,28 +250,10 @@ if st.button("Get Career Recommendations", type="primary", key="hidden_button"):
             use_container_width=True
         )
         
-        # Download button with styling
+        # Download button
         csv = recommendations.to_csv(index=False)
-        st.markdown("""
-        <div style="text-align: center; margin: 2rem 0;">
-            <button style="
-                background: linear-gradient(45deg, #4ECDC4, #44A08D);
-                color: white;
-                border: none;
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
-                font-weight: bold;
-                border-radius: 25px;
-                cursor: pointer;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            " onclick="document.querySelector('button[data-testid=\'baseButton-secondary\']').click()">
-                📥 Download Recommendations as CSV
-            </button>
-        </div>
-        """, unsafe_allow_html=True)
-        
         st.download_button(
-            label="Download Recommendations as CSV",
+            label="📥 Download Recommendations as CSV",
             data=csv,
             file_name="career_recommendations.csv",
             mime="text/csv",

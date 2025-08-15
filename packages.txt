@@ -1,3 +1,0 @@
-# System dependencies for Python packages
-build-essential
-python3-dev
