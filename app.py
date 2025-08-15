@@ -7,9 +7,48 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Page configuration
 st.set_page_config(page_title="Career Recommender", page_icon="", layout="wide")
 
-# Title
-st.title("Career Path Recommender")
-st.write("Answer these questions to get personalized career recommendations.")
+# Custom CSS for better styling
+st.markdown("""
+<style>
+    .main-header {
+        background: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%);
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .main-header h1 {
+        color: white !important;
+        margin: 0;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .main-header p {
+        color: white !important;
+        margin: 0.5rem 0 0 0;
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+    .stSlider > div > div > div > div {
+        background-color: #FF6B6B;
+    }
+    .stButton > button {
+        background: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%);
+        border: none;
+        border-radius: 25px;
+        padding: 0.5rem 2rem;
+        font-weight: bold;
+        color: white;
+    }
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Title with custom styling
+st.markdown('<div class="main-header"><h1>🚀 Career Path Recommender</h1><p>Answer these questions to get personalized career recommendations.</p></div>', unsafe_allow_html=True)
 
 # Load model
 @st.cache_resource
@@ -153,38 +192,114 @@ print(f"Total questions: {TOTAL_QUESTIONS}")
 if 'responses' not in st.session_state:
     st.session_state.responses = [3] * TOTAL_QUESTIONS
 
-# Display questions
-st.write(f"Rate each statement from 1 (Strongly Disagree/Not Important) to 5 (Strongly Agree/Extremely Important):")
+# Display questions with better styling
+st.markdown("""
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+    <h3 style="color: white; text-align: center; margin: 0 0 1rem 0;">📋 Assessment Questions</h3>
+    <p style="color: white; text-align: center; margin: 0; opacity: 0.9;">
+        Rate each statement from 1 (Strongly Disagree/Not Important) to 5 (Strongly Agree/Extremely Important)
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# Create columns for better layout
+col1, col2 = st.columns(2)
 
 for i in range(TOTAL_QUESTIONS):
-    st.session_state.responses[i] = st.slider(
-        f"{i+1}. {questions[i]}",
-        min_value=1,
-        max_value=5,
-        value=st.session_state.responses[i],
-        key=f"q_{i}"
-    )
+    # Alternate between columns for better layout
+    col = col1 if i % 2 == 0 else col2
+    
+    with col:
+        st.markdown(f"""
+        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid #FF6B6B;">
+            <strong style="color: #FF6B6B;">Q{i+1}:</strong> {questions[i]}
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.session_state.responses[i] = st.slider(
+            f"Rating:",
+            min_value=1,
+            max_value=5,
+            value=st.session_state.responses[i],
+            key=f"q_{i}",
+            label_visibility="collapsed"
+        )
 
-# Submit button
-if st.button("Get Career Recommendations", type="primary"):
+# Submit button with better styling
+st.markdown("""
+<div style="text-align: center; margin: 2rem 0;">
+    <button style="
+        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        color: white;
+        border: none;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    " onclick="document.querySelector('button[data-testid=\'baseButton-secondary\']').click()">
+        🚀 Get Career Recommendations
+    </button>
+</div>
+""", unsafe_allow_html=True)
+
+if st.button("Get Career Recommendations", type="primary", key="hidden_button"):
     user_profile = score_questionnaire(st.session_state.responses)
     recommendations = get_career_recommendations(user_profile, model, feature_cols, profiles)
     
     if recommendations is not None:
         st.session_state.recommendations = recommendations
-        st.success("Assessment completed! Scroll down to see your recommendations.")
         
-        # Show results immediately
-        st.subheader("Your Top Career Recommendations")
-        st.dataframe(recommendations, hide_index=True)
+        # Success message with styling
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #4CAF50, #45a049); padding: 1.5rem; border-radius: 10px; margin: 2rem 0; text-align: center;">
+            <h3 style="color: white; margin: 0;">🎉 Assessment Completed!</h3>
+            <p style="color: white; margin: 0.5rem 0 0 0; opacity: 0.9;">Scroll down to see your personalized career recommendations.</p>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # Download button
+        # Show results with better styling
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+            <h3 style="color: white; text-align: center; margin: 0 0 1rem 0;">🌟 Your Top Career Recommendations</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Style the dataframe
+        st.dataframe(
+            recommendations, 
+            hide_index=True,
+            use_container_width=True
+        )
+        
+        # Download button with styling
         csv = recommendations.to_csv(index=False)
+        st.markdown("""
+        <div style="text-align: center; margin: 2rem 0;">
+            <button style="
+                background: linear-gradient(45deg, #4ECDC4, #44A08D);
+                color: white;
+                border: none;
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+                font-weight: bold;
+                border-radius: 25px;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            " onclick="document.querySelector('button[data-testid=\'baseButton-secondary\']').click()">
+                📥 Download Recommendations as CSV
+            </button>
+        </div>
+        """, unsafe_allow_html=True)
+        
         st.download_button(
             label="Download Recommendations as CSV",
             data=csv,
             file_name="career_recommendations.csv",
-            mime="text/csv"
+            mime="text/csv",
+            key="download_button"
         )
     else:
         st.error("Error generating recommendations. Please try again.")
