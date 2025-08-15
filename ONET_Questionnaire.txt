@@ -1,0 +1,147 @@
+O*NET CAREER ASSESSMENT QUESTIONNAIRE
+=====================================
+
+This questionnaire helps assess your career preferences across three key O*NET domains:
+1. Work Values (6 dimensions)
+2. Interests (RIASEC - 6 dimensions) 
+3. Work Styles (16 dimensions)
+
+INSTRUCTIONS:
+Rate each item using the scale provided for each section.
+Your responses will be used to find matching occupations from the O*NET database.
+
+===============================================================================
+SECTION 1: WORK VALUES ASSESSMENT
+===============================================================================
+
+Rate how important each of the following is to you in a job:
+1 = Not Important    2 = Somewhat Important    3 = Important    4 = Very Important    5 = Extremely Important
+
+ACHIEVEMENT & RECOGNITION:
+___ Achievement: Being able to use your strongest abilities and see results
+___ Recognition: Getting recognition for the work you do
+
+WORKING CONDITIONS & SUPPORT:
+___ Working Conditions: Having good working conditions
+___ Support: Getting support from management and coworkers
+
+RELATIONSHIPS & INDEPENDENCE:
+___ Relationships: Having co-workers who are easy to get along with
+___ Independence: Being able to work on your own
+
+===============================================================================
+SECTION 2: RIASEC INTEREST ASSESSMENT
+===============================================================================
+
+Rate how much you would enjoy each activity:
+1 = Strongly Dislike    2 = Dislike    3 = Neutral    4 = Like    5 = Strongly Like
+
+REALISTIC (R) - Working with things, machines, tools:
+___ Working with your hands
+___ Building or repairing things
+___ Operating machinery
+___ Working outdoors
+___ Working with animals
+
+INVESTIGATIVE (I) - Working with ideas, research, analysis:
+___ Solving complex problems
+___ Conducting research
+___ Analyzing data
+___ Working with computers
+___ Learning new things
+
+ARTISTIC (A) - Working with creative expression:
+___ Creating artwork
+___ Writing stories or poetry
+___ Designing things
+___ Performing music or drama
+___ Expressing yourself creatively
+
+SOCIAL (S) - Working with people, helping others:
+___ Teaching or training others
+___ Helping people with problems
+___ Working in teams
+___ Caring for others
+___ Public speaking
+
+ENTERPRISING (E) - Working with people, leading, persuading:
+___ Leading or managing others
+___ Selling products or ideas
+___ Making business decisions
+___ Starting your own business
+___ Negotiating or persuading
+
+CONVENTIONAL (C) - Working with data, following procedures:
+___ Organizing information
+___ Following detailed procedures
+___ Working with numbers
+___ Keeping accurate records
+___ Working in structured environments
+
+===============================================================================
+SECTION 3: WORK STYLES ASSESSMENT
+===============================================================================
+
+Rate how well each statement describes you:
+1 = Strongly Disagree    2 = Disagree    3 = Neutral    4 = Agree    5 = Strongly Agree
+
+ACHIEVEMENT & PERSISTENCE:
+___ I set high goals for myself and work hard to achieve them
+___ I persist in completing tasks even when they are difficult
+___ I take initiative to start projects and see them through
+
+LEADERSHIP & SOCIAL:
+___ I enjoy taking charge and leading others
+___ I work well with people and enjoy teamwork
+___ I am concerned about the well-being of others
+___ I adapt easily to new situations and changes
+
+WORK QUALITY & ETHICS:
+___ I pay close attention to details
+___ I can be counted on to complete my work reliably
+___ I maintain high ethical standards in my work
+___ I can work independently without supervision
+
+STRESS & ADAPTABILITY:
+___ I handle stressful situations well
+___ I maintain self-control even in difficult circumstances
+___ I am flexible and open to new ideas
+___ I think analytically about problems
+
+===============================================================================
+SCORING INSTRUCTIONS
+===============================================================================
+
+WORK VALUES SCORES:
+- Achievement: Average of achievement and recognition items
+- Working Conditions: Average of working conditions and support items  
+- Relationships: Average of relationships and independence items
+
+RIASEC SCORES:
+- Realistic (R): Average of 5 realistic items
+- Investigative (I): Average of 5 investigative items
+- Artistic (A): Average of 5 artistic items
+- Social (S): Average of 5 social items
+- Enterprising (E): Average of 5 enterprising items
+- Conventional (C): Average of 5 conventional items
+
+WORK STYLES SCORES:
+- Achievement/Effort: Average of achievement and persistence items
+- Leadership: Average of leadership items
+- Cooperation: Average of teamwork and concern for others items
+- Stress Tolerance: Average of stress handling items
+- Dependability: Average of reliability and attention to detail items
+- Adaptability: Average of flexibility and analytical thinking items
+
+===============================================================================
+O*NET DATA MAPPING
+===============================================================================
+
+This questionnaire maps directly to O*NET database files:
+- Work Values: Maps to Work Values.txt (6 dimensions)
+- Interests: Maps to Interests.txt (6 RIASEC dimensions)
+- Work Styles: Maps to Work Styles.txt (16 dimensions)
+
+Your scores will be normalized to match O*NET scales and used to find occupations with similar profiles through cosine similarity matching.
+
+===============================================================================
